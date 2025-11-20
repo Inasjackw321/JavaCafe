@@ -554,6 +554,7 @@ body {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    text-decoration: none;
 }
 
 .nav-btn:hover {
@@ -565,6 +566,13 @@ body {
     background: rgba(255, 255, 255, 0.2);
     color: var(--text-primary);
     border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Playground container */
+.playground-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 /* Pages */
