@@ -186,12 +186,18 @@ function initializeEventListeners() {
 
     // Control buttons
     document.getElementById('runBtn').addEventListener('click', runCode);
+    document.getElementById('saveBtn').addEventListener('click', openSaveModal);
     document.getElementById('clearBtn').addEventListener('click', clearEditor);
     document.getElementById('clearOutputBtn').addEventListener('click', clearOutput);
+    document.getElementById('fullscreenBtn').addEventListener('click', toggleFullscreen);
 
     // Settings
     document.getElementById('settingsBtn').addEventListener('click', openSettings);
     document.getElementById('closeSettings').addEventListener('click', closeSettings);
+
+    // Save modal
+    document.getElementById('closeSave').addEventListener('click', closeSaveModal);
+    document.getElementById('saveForm').addEventListener('submit', handleSave);
 
     // Settings controls
     document.getElementById('themeSelect').addEventListener('change', (e) => {
@@ -228,6 +234,12 @@ function initializeEventListeners() {
     document.getElementById('settingsModal').addEventListener('click', (e) => {
         if (e.target.id === 'settingsModal') {
             closeSettings();
+        }
+    });
+
+    document.getElementById('saveModal').addEventListener('click', (e) => {
+        if (e.target.id === 'saveModal') {
+            closeSaveModal();
         }
     });
 }
@@ -503,12 +515,96 @@ function initializeResizer() {
     });
 }
 
-// Keyboard shortcuts
-document.addEventListener('keydown', (e) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
-        e.preventDefault();
+// Save modal functions
+function openSaveModal() {
+    const code = editor.getValue().trim();
+    if (!code) {
+        alert('Please write some code before saving!');
+        return;
+    }
+    document.getElementById('saveModal').classList.add('active');
+}
+
+function closeSaveModal() {
+    document.getElementById('saveModal').classList.remove('active');
+}
+
+function handleSave(e) {
+    e.preventDefault();
+
+    const title = document.getElementById('saveTitle').value.trim();
+    const author = document.getElementById('saveAuthor').value.trim();
+    const description = document.getElementById('saveDescription').value.trim();
+    const code = editor.getValue();
+
+    if (!title || !author || !description || !code) {
+        alert('Please fill in all fields');
+        return;
     }
 
+    // Save script to localStorage
+    const script = {
+        id: Date.now().toString(),
+        title,
+        author,
+        description,
+        language: currentLanguage,
+        code,
+        timestamp: new Date().toISOString(),
+        likes: 0
+    };
+
+    const scripts = getScripts();
+    scripts.unshift(script);
+    localStorage.setItem('codeSandbox_scripts', JSON.stringify(scripts));
+
+    // Redirect to detail page
+    window.location.href = `detail.html?id=${script.id}`;
+}
+
+function getScripts() {
+    const data = localStorage.getItem('codeSandbox_scripts');
+    return data ? JSON.parse(data) : [];
+}
+
+// Fullscreen functionality
+function toggleFullscreen() {
+    const editorPanel = document.getElementById('editorPanel');
+    editorPanel.classList.toggle('fullscreen');
+
+    // Update button icon
+    const btn = document.getElementById('fullscreenBtn');
+    if (editorPanel.classList.contains('fullscreen')) {
+        btn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 3v3a2 2 0 0 1-2 2H3m18 0h-3a2 2 0 0 1-2-2V3m0 18v-3a2 2 0 0 1 2-2h3M3 16h3a2 2 0 0 1 2 2v3"/>
+            </svg>
+        `;
+        btn.title = 'Exit Fullscreen';
+    } else {
+        btn.innerHTML = `
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+            </svg>
+        `;
+        btn.title = 'Toggle Fullscreen';
+    }
+
+    // Refresh editor after transition
+    setTimeout(() => {
+        editor.refresh();
+    }, 300);
+}
+
+// Keyboard shortcuts
+document.addEventListener('keydown', (e) => {
+    // Ctrl/Cmd + S to save
+    if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+        e.preventDefault();
+        openSaveModal();
+    }
+
+    // Ctrl/Cmd + / to toggle settings
     if ((e.ctrlKey || e.metaKey) && e.key === '/') {
         e.preventDefault();
         const modal = document.getElementById('settingsModal');
@@ -516,6 +612,20 @@ document.addEventListener('keydown', (e) => {
             closeSettings();
         } else {
             openSettings();
+        }
+    }
+
+    // F11 to toggle fullscreen
+    if (e.key === 'F11') {
+        e.preventDefault();
+        toggleFullscreen();
+    }
+
+    // ESC to exit fullscreen
+    if (e.key === 'Escape') {
+        const editorPanel = document.getElementById('editorPanel');
+        if (editorPanel.classList.contains('fullscreen')) {
+            toggleFullscreen();
         }
     }
 });

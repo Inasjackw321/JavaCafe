@@ -84,6 +84,14 @@
                     </svg>
                     Run Code
                 </button>
+                <button id="saveBtn" class="glass-btn">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                        <polyline points="17 21 17 13 7 13 7 21"/>
+                        <polyline points="7 3 7 8 15 8"/>
+                    </svg>
+                    Save Script
+                </button>
                 <button id="clearBtn" class="glass-btn">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
@@ -96,11 +104,16 @@
         <!-- Editor and Output Container -->
         <div class="workspace">
             <!-- Editor Section -->
-            <div class="glass-panel editor-panel">
+            <div class="glass-panel editor-panel" id="editorPanel">
                 <div class="panel-header">
                     <span class="panel-title">Editor</span>
                     <div class="editor-info">
                         <span id="editorInfo" class="info-badge"></span>
+                        <button id="fullscreenBtn" class="small-btn" title="Toggle Fullscreen">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
                 <div id="editor"></div>
@@ -183,6 +196,53 @@
                         <span>Auto-run on Code Change</span>
                     </label>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Save Script Modal -->
+    <div id="saveModal" class="modal">
+        <div class="glass-panel modal-content">
+            <div class="modal-header">
+                <h2>Save Script</h2>
+                <button id="closeSave" class="close-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"/>
+                        <line x1="6" y1="6" x2="18" y2="18"/>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="saveForm">
+                    <div class="settings-group">
+                        <label class="settings-label">
+                            <span>Title</span>
+                            <input type="text" id="saveTitle" class="glass-input" placeholder="My Amazing Script" required>
+                        </label>
+                    </div>
+                    <div class="settings-group">
+                        <label class="settings-label">
+                            <span>Author</span>
+                            <input type="text" id="saveAuthor" class="glass-input" placeholder="Your Name" required>
+                        </label>
+                    </div>
+                    <div class="settings-group">
+                        <label class="settings-label">
+                            <span>Description</span>
+                            <textarea id="saveDescription" class="glass-textarea" placeholder="What does your script do?" rows="3" required></textarea>
+                        </label>
+                    </div>
+                    <div class="settings-group">
+                        <button type="submit" class="glass-btn primary" style="width: 100%;">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+                                <polyline points="17 21 17 13 7 13 7 21"/>
+                                <polyline points="7 3 7 8 15 8"/>
+                            </svg>
+                            Save & View Script
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
