@@ -34,6 +34,29 @@
                 </svg>
                 Code Sandbox
             </h1>
+            <nav class="header-nav">
+                <button class="nav-btn active" data-page="browse">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="7" height="7"/>
+                        <rect x="14" y="3" width="7" height="7"/>
+                        <rect x="14" y="14" width="7" height="7"/>
+                        <rect x="3" y="14" width="7" height="7"/>
+                    </svg>
+                    Browse
+                </button>
+                <button class="nav-btn" data-page="upload">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                    </svg>
+                    Upload
+                </button>
+                <button class="nav-btn" data-page="playground">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 17l6-6-6-6M12 19h8"/>
+                    </svg>
+                    Playground
+                </button>
+            </nav>
             <div class="header-controls">
                 <button id="settingsBtn" class="glass-btn" title="Settings">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -47,57 +70,190 @@
 
     <!-- Main Container -->
     <main class="container">
-        <!-- Control Panel -->
-        <div class="glass-panel control-panel">
-            <div class="language-tabs">
-                <button class="tab-btn active" data-lang="javascript">JavaScript</button>
-                <button class="tab-btn" data-lang="html">HTML</button>
-                <button class="tab-btn" data-lang="python">Python</button>
+        <!-- Browse Page -->
+        <div id="browsePage" class="page active">
+            <div class="page-header">
+                <h2>Browse Scripts</h2>
+                <p class="page-subtitle">Explore and run community scripts</p>
             </div>
-            <div class="control-buttons">
-                <button id="runBtn" class="glass-btn primary">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M8 5v14l11-7z"/>
-                    </svg>
-                    Run Code
-                </button>
-                <button id="clearBtn" class="glass-btn">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
-                    </svg>
-                    Clear
-                </button>
+            <div id="scriptsGrid" class="scripts-grid">
+                <!-- Scripts will be dynamically loaded here -->
             </div>
         </div>
 
-        <!-- Editor and Output Container -->
-        <div class="workspace">
-            <!-- Editor Section -->
-            <div class="glass-panel editor-panel">
-                <div class="panel-header">
-                    <span class="panel-title">Editor</span>
-                    <div class="editor-info">
-                        <span id="editorInfo" class="info-badge"></span>
-                    </div>
-                </div>
-                <div id="editor"></div>
+        <!-- Upload Page -->
+        <div id="uploadPage" class="page">
+            <div class="page-header">
+                <h2>Upload Script</h2>
+                <p class="page-subtitle">Share your code with the community</p>
             </div>
+            <div class="glass-panel upload-form-container">
+                <form id="uploadForm" class="upload-form">
+                    <div class="form-group">
+                        <label for="scriptTitle">Title</label>
+                        <input type="text" id="scriptTitle" class="glass-input" placeholder="My Amazing Script" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="scriptAuthor">Author</label>
+                        <input type="text" id="scriptAuthor" class="glass-input" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="scriptDescription">Description</label>
+                        <textarea id="scriptDescription" class="glass-textarea" placeholder="What does your script do?" rows="3" required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="scriptLanguage">Language</label>
+                        <select id="scriptLanguage" class="glass-select" required>
+                            <option value="javascript">JavaScript</option>
+                            <option value="html">HTML</option>
+                            <option value="python">Python</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="scriptCode">Code</label>
+                        <div id="uploadEditor"></div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="glass-btn primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/>
+                            </svg>
+                            Upload Script
+                        </button>
+                        <button type="button" id="cancelUpload" class="glass-btn">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
-            <!-- Resizer -->
-            <div class="resizer"></div>
-
-            <!-- Output Section -->
-            <div class="glass-panel output-panel">
-                <div class="panel-header">
-                    <span class="panel-title">Output</span>
-                    <button id="clearOutputBtn" class="small-btn" title="Clear Output">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="18" y1="6" x2="6" y2="18"/>
-                            <line x1="6" y1="6" x2="18" y2="18"/>
+        <!-- Playground Page -->
+        <div id="playgroundPage" class="page">
+            <!-- Control Panel -->
+            <div class="glass-panel control-panel">
+                <div class="language-tabs">
+                    <button class="tab-btn active" data-lang="javascript">JavaScript</button>
+                    <button class="tab-btn" data-lang="html">HTML</button>
+                    <button class="tab-btn" data-lang="python">Python</button>
+                </div>
+                <div class="control-buttons">
+                    <button id="runBtn" class="glass-btn primary">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8 5v14l11-7z"/>
                         </svg>
+                        Run Code
+                    </button>
+                    <button id="clearBtn" class="glass-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                        </svg>
+                        Clear
                     </button>
                 </div>
-                <div id="output" class="output-content"></div>
+            </div>
+
+            <!-- Editor and Output Container -->
+            <div class="workspace">
+                <!-- Editor Section -->
+                <div class="glass-panel editor-panel">
+                    <div class="panel-header">
+                        <span class="panel-title">Editor</span>
+                        <div class="editor-info">
+                            <span id="editorInfo" class="info-badge"></span>
+                        </div>
+                    </div>
+                    <div id="editor"></div>
+                </div>
+
+                <!-- Resizer -->
+                <div class="resizer"></div>
+
+                <!-- Output Section -->
+                <div class="glass-panel output-panel">
+                    <div class="panel-header">
+                        <span class="panel-title">Output</span>
+                        <button id="clearOutputBtn" class="small-btn" title="Clear Output">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="output" class="output-content"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Script Detail Page -->
+        <div id="detailPage" class="page">
+            <div class="detail-container">
+                <!-- Script Info -->
+                <div class="glass-panel detail-header">
+                    <button id="backToBrowse" class="glass-btn small-back-btn">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M19 12H5M12 19l-7-7 7-7"/>
+                        </svg>
+                        Back
+                    </button>
+                    <h2 id="detailTitle"></h2>
+                    <p id="detailAuthor" class="detail-author"></p>
+                    <p id="detailDescription" class="detail-description"></p>
+                    <div class="detail-meta">
+                        <span id="detailLanguage" class="language-badge"></span>
+                        <span id="detailDate" class="date-badge"></span>
+                        <button id="likeBtn" class="like-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                            <span id="likeCount">0</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Code Preview and Run -->
+                <div class="glass-panel detail-code">
+                    <div class="panel-header">
+                        <span class="panel-title">Code</span>
+                        <button id="runDetailCode" class="glass-btn primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8 5v14l11-7z"/>
+                            </svg>
+                            Run
+                        </button>
+                    </div>
+                    <div id="detailEditor"></div>
+                </div>
+
+                <!-- Output -->
+                <div class="glass-panel detail-output">
+                    <div class="panel-header">
+                        <span class="panel-title">Output</span>
+                        <button id="clearDetailOutput" class="small-btn" title="Clear Output">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div id="detailOutput" class="output-content"></div>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="glass-panel comments-section">
+                    <div class="panel-header">
+                        <span class="panel-title">Comments</span>
+                        <span id="commentCount" class="info-badge">0</span>
+                    </div>
+                    <div class="comments-container">
+                        <form id="commentForm" class="comment-form">
+                            <input type="text" id="commentAuthor" class="glass-input" placeholder="Your Name" required>
+                            <textarea id="commentText" class="glass-textarea" placeholder="Add a comment..." rows="3" required></textarea>
+                            <button type="submit" class="glass-btn primary">Post Comment</button>
+                        </form>
+                        <div id="commentsList" class="comments-list">
+                            <!-- Comments will be loaded here -->
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </main>

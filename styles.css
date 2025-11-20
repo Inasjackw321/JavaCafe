@@ -535,6 +535,415 @@ body {
     background: rgba(255, 255, 255, 0.4);
 }
 
+/* Navigation */
+.header-nav {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.nav-btn {
+    background: transparent;
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 0.6rem 1rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.nav-btn.active {
+    background: rgba(255, 255, 255, 0.2);
+    color: var(--text-primary);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* Pages */
+.page {
+    display: none;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+    overflow: auto;
+}
+
+.page.active {
+    display: flex;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.page-header h2 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Browse Page */
+.scripts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+    padding-bottom: 2rem;
+}
+
+.script-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+}
+
+.script-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(31, 38, 135, 0.5);
+}
+
+.script-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    gap: 1rem;
+}
+
+.script-card-header h3 {
+    font-size: 1.2rem;
+    margin: 0;
+    flex: 1;
+}
+
+.language-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.language-badge.javascript {
+    background: linear-gradient(135deg, #f7df1e, #f0db4f);
+    color: #000;
+}
+
+.language-badge.html {
+    background: linear-gradient(135deg, #e34c26, #f06529);
+    color: #fff;
+}
+
+.language-badge.python {
+    background: linear-gradient(135deg, #3776ab, #ffd43b);
+    color: #fff;
+}
+
+.script-card-author {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.script-card-description {
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0;
+    flex: 1;
+}
+
+.script-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--glass-border);
+}
+
+.script-card-date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.script-card-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.like-count {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.glass-btn.small {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.85rem;
+}
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    grid-column: 1 / -1;
+}
+
+.empty-state svg {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* Upload Page */
+.upload-form-container {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 2rem;
+}
+
+.upload-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.glass-input,
+.glass-textarea {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    color: var(--text-primary);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.glass-input:focus,
+.glass-textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.glass-textarea {
+    resize: vertical;
+    font-family: inherit;
+}
+
+#uploadEditor {
+    height: 400px;
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.form-actions {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+}
+
+/* Detail Page */
+.detail-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.detail-header {
+    padding: 2rem;
+    position: relative;
+}
+
+.small-back-btn {
+    margin-bottom: 1rem;
+    width: fit-content;
+}
+
+.detail-header h2 {
+    font-size: 2rem;
+    margin: 0.5rem 0;
+}
+
+.detail-author {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin: 0.5rem 0;
+}
+
+.detail-description {
+    color: var(--text-primary);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    margin: 1rem 0;
+}
+
+.detail-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.date-badge {
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+.like-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.like-btn:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.like-btn.liked {
+    background: linear-gradient(135deg, #ff6b9d, #c471f5);
+    border-color: transparent;
+}
+
+.like-btn.liked svg {
+    fill: currentColor;
+}
+
+.detail-code {
+    padding: 1.5rem;
+}
+
+#detailEditor {
+    height: 400px;
+    overflow: auto;
+}
+
+.detail-output {
+    padding: 1.5rem;
+    min-height: 200px;
+}
+
+/* Comments Section */
+.comments-section {
+    padding: 1.5rem;
+}
+
+.comments-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.comment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.comment {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 1.2rem;
+    border-radius: 12px;
+    border-left: 3px solid var(--primary-color);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.comment-header strong {
+    color: var(--text-primary);
+}
+
+.comment-date {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+.comment-text {
+    color: var(--text-primary);
+    line-height: 1.5;
+    margin: 0;
+}
+
+.no-comments {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 2rem;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .container {
@@ -543,6 +952,22 @@ body {
 
     .glass-header {
         padding: 1rem;
+    }
+
+    .header-content {
+        flex-wrap: wrap;
+    }
+
+    .header-nav {
+        width: 100%;
+        justify-content: center;
+        order: 3;
+        margin-top: 0.5rem;
+    }
+
+    .nav-btn {
+        flex: 1;
+        justify-content: center;
     }
 
     .workspace {
@@ -562,5 +987,21 @@ body {
     .control-buttons {
         width: 100%;
         justify-content: center;
+    }
+
+    .scripts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .upload-form-container {
+        padding: 1rem;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button {
+        width: 100%;
     }
 }
